@@ -1,13 +1,16 @@
 import React, { useReducer, useState } from "react";
+import Todo from "./Todo.js";
 
 const ACTIONS = {
   ADD_TODO: "add-todo",
+  TOGGLE_TODO: "toggle-todo",
 };
 
 function reducer(todos, action) {
   switch (action.type) {
     case ACTIONS.ADD_TODO:
       return [...todos, newTodo(action.payload.name)];
+    case ACTIONS.TOGGLE_TODO:
   }
 }
 
@@ -21,6 +24,8 @@ export default function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    // awesome thing about useReducer is we can just use 1 function with different parameters to handle stuff
+    // so we don't end up having to write lots of callbacks for adding, editing or deleting
     dispatch({ type: ACTIONS.ADD_TODO, payload: { name: name } });
     setName("");
   }
@@ -42,6 +47,9 @@ export default function App() {
           id=""
         />
       </form>
+      {todos.map((todo) => {
+        return <Todo key={todo.id} todo={todo} />;
+      })}
     </>
   );
 }
