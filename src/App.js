@@ -4,8 +4,10 @@ import Todo from "./Todo.js";
 export const ACTIONS = {
   ADD_TODO: "add-todo",
   TOGGLE_TODO: "toggle-todo",
+  DELETE_TODO: "delete-todo",
 };
 
+// one reducer function can handle so many use cases rather than writing a ton of handleClick, handleAdd, handleDelete
 function reducer(todos, action) {
   switch (action.type) {
     case ACTIONS.ADD_TODO:
@@ -18,6 +20,11 @@ function reducer(todos, action) {
         // if it isn't equal to the current todo then return as is unmodified
         return todo;
       });
+    case ACTIONS.DELETE_TODO:
+      // only keep the todos if they are not equal to our payload id
+      return todos.filter((todo) => todo.id !== action.payload.id);
+    default:
+      return todos;
   }
 }
 
@@ -45,6 +52,7 @@ export default function App() {
         useReducer Part 2 learned from
         https://www.youtube.com/watch?v=kK_Wqx3RnHk
       </h1>
+      <p>Hit return after creating the todo to populate the list.</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
